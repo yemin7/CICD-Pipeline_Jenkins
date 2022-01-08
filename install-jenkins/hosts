@@ -1,2 +1,2 @@
 [cloud]
-ec2_node ansible_host= ansible_user=ec2-user
+jenkins_node ansible_host= ansible_user=

@@ -1,0 +1,10 @@
+*.retry
+*.tmp
+*.bkp
+
+.DS_Store
+.vscode/
+
+venv
+Vagrantfile
+.vagrant
