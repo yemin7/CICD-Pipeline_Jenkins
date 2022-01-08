@@ -1,0 +1,12 @@
+---
+java_package:
+  - java-1.8.0-openjdk
+
+java_home: ""
+
+dependencies:
+  - wget
+
+jenkins_baseurl: "https://pkg.jenkins.io/redhat-stable"
+
+daemonize_baseurl: "https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/"

@@ -1,0 +1,6 @@
+---
+- hosts: cloud
+  gather_facts: false
+  roles:
+  - role: install-jenkins
+    become: yes

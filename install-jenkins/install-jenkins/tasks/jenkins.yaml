@@ -1,0 +1,41 @@
+---
+- name: Install Java
+  package:
+    name: "{{ java_package }}"
+    state: present
+
+- name: Install other dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - "{{ dependencies }}"
+
+- name: Install epel in ec2
+  shell: "amazon-linux-extras install epel -y"
+
+- name: Add repo
+  yum_repository:
+    name: jenkins
+    description: Jenkins YUM repo
+    baseurl: "{{ jenkins_baseurl }}"
+    gpgcheck: yes
+
+- name: Add daemonize repo
+  yum_repository:
+   name: daemonize
+   description: Daemonize repo
+   baseurl: "{{ daemonize_baseurl }}"
+   gpgcheck: no
+   enabled: yes
+ 
+- name: Install Jenkins
+  package:
+    name: jenkins
+    state: present
+
+- name: Start Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: yes

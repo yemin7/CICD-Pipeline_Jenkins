@@ -1,0 +1,2 @@
+[cloud]
+ec2_node ansible_host= ansible_user=ec2-user
