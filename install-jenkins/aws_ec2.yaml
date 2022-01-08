@@ -1,0 +1,17 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - ap-southeast-1
+boto_profile: <aws_profile>
+filters:
+ tag:app: jenkins
+#cache: yes
+#cache_plugin: ansible.builtin.jsonfile
+#cache_timeout: 720
+#cache_connection: ./
+#cache_prefix: aws_ec2
+keyed_groups:
+  - key: placement.region
+    prefix: aws_region
+compose:
+  ansible_host: public_dns_name
+  ansible_user: "'ec2-user'"

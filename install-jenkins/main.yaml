@@ -1,5 +1,5 @@
 ---
-- hosts: cloud
+- hosts: aws_region_ap_southeast_1
   gather_facts: false
   roles:
   - role: install-jenkins

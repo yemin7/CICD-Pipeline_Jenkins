@@ -18,7 +18,7 @@
   yum_repository:
     name: jenkins
     description: Jenkins YUM repo
-    baseurl: "{{ jenkins_baseurl }}"
+    baseurl: "{{ jenkins.baseurl }}"
     gpgcheck: yes
 
 - name: Add daemonize repo
@@ -28,11 +28,41 @@
    baseurl: "{{ daemonize_baseurl }}"
    gpgcheck: no
    enabled: yes
+
+- name: Add jenkins gpg key
+  rpm_key:
+    key: "{{ jenkins.key }}"
+    state: present
  
 - name: Install Jenkins
   package:
     name: jenkins
     state: present
+
+- name: Check jenkins directory
+  stat:
+    path: /tmp/jenkins.tar.gz
+  register: jenkins_tar
+
+- name: Copy jenkins directory
+  copy:
+    src: files/jenkins.tar.gz
+    dest: /tmp/
+  when: jenkins_tar.stat.exists == False
+
+- name: Unarchive jenkins directory into /var/lib/jenkins
+  unarchive:
+    src: /tmp/jenkins.tar.gz
+    dest: /var/lib/
+    remote_src: yes
+
+- name: Give jenkins permission
+  file:
+    path: /var/lib/jenkins
+    state: directory
+    owner: jenkins
+    group: jenkins
+    recurse: yes
 
 - name: Start Jenkins
   systemd:
