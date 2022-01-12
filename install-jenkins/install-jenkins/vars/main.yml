@@ -12,3 +12,5 @@ jenkins:
   key: "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
 
 daemonize_baseurl: "https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/"
+
+local_dir: false

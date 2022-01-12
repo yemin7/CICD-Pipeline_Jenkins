@@ -39,30 +39,32 @@
     name: jenkins
     state: present
 
-- name: Check jenkins directory
-  stat:
-    path: /tmp/jenkins.tar.gz
-  register: jenkins_tar
-
-- name: Copy jenkins directory
-  copy:
-    src: files/jenkins.tar.gz
-    dest: /tmp/
-  when: jenkins_tar.stat.exists == False
-
-- name: Unarchive jenkins directory into /var/lib/jenkins
-  unarchive:
-    src: /tmp/jenkins.tar.gz
-    dest: /var/lib/
-    remote_src: yes
-
-- name: Give jenkins permission
-  file:
-    path: /var/lib/jenkins
-    state: directory
-    owner: jenkins
-    group: jenkins
-    recurse: yes
+- block:
+  - name: Check jenkins directory
+    stat:
+      path: /tmp/jenkins.tar.gz
+    register: jenkins_tar
+  
+  - name: Copy jenkins directory
+    copy:
+      src: files/jenkins.tar.gz
+      dest: /tmp/
+    when: jenkins_tar.stat.exists == False
+  
+  - name: Unarchive jenkins directory into /var/lib/jenkins
+    unarchive:
+      src: /tmp/jenkins.tar.gz
+      dest: /var/lib/
+      remote_src: yes
+  
+  - name: Give jenkins permission
+    file:
+      path: /var/lib/jenkins
+      state: directory
+      owner: jenkins
+      group: jenkins
+      recurse: yes
+  when: local_dir
 
 - name: Start Jenkins
   systemd:
